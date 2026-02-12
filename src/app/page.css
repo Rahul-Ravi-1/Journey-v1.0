@@ -1,0 +1,38 @@
+.main-wrapper {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  /* Full-viewport layer: gradient first, then tiled stars on top (pixelated). */
+  .gradient-background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    /* Bottom layer: gradient. Top layer: stars (white on transparent), tiled. */
+    background-image: url('/Assets/stars.png'), linear-gradient(to bottom, #0d1b2a, #3e5c76);
+    background-repeat: repeat, no-repeat;
+    background-size: 1024px 1024px, 100% 100%;
+    background-position: 0 0, 0 0;
+    image-rendering: pixelated;
+  }
+  .journey-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 3rem;
+    color: white;
+    text-shadow: 0 0 10px white;
+    animation: fadeInTop 1.2s ease-out forwards;
+    opacity: 0;
+  }
+  /* Animation for the journey title */
+  @keyframes fadeInTop {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }

@@ -1,6 +1,6 @@
 # Journey
 
-A simple Next.js screen using your sky background.
+An app for life goals
 
 ## Setup
 

@@ -6,6 +6,19 @@
   }
 
   /* Full-viewport layer: gradient first, then tiled stars on top (pixelated). */
+  /* Centered content layer above background */
+  .screen-content {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 1rem;
+    text-align: center;
+  }
+
   .gradient-background {
     position: absolute;
     inset: 0;
@@ -24,6 +37,15 @@
     text-shadow: 0 0 10px white;
     animation: fadeInTop 1.2s ease-out forwards;
     opacity: 0;
+  }
+  .journey-subtitle {
+      font-size: 1.0rem; 
+      text-shadow: 0 0 3px rgba(255, 255, 255, 0.5); 
+      animation-delay: 1.2s; 
+      animation: fadeInTop 0.5s ease-out 1.0s forwards; 
+      opacity: 0;
+      margin-top: 1.5rem; 
+
   }
   /* Animation for the journey title */
   @keyframes fadeInTop {

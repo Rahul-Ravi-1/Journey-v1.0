@@ -58,3 +58,20 @@
       transform: translateY(0);
     }
   }
+  @keyframes fadeOutBottom {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+  }
+  .step-content.fade-out {
+    animation: fadeOutBottom 0.5s ease-out forwards;
+  }
+  .step-content.fade-in {
+    opacity: 0;
+    animation: fadeInTop 1.2s ease-out forwards;
+  }

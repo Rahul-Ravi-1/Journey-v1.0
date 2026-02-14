@@ -46,9 +46,14 @@ Use `temp/react-next-fundamentals.md` for concepts and `temp/interactivity-examp
 1.  We need to make persistent data models for the user
 
 Schema will probably look like
-
+2/13/2026
 Player:
 Username
 Email
 Main Goal
 Daily Actions
+
+2/14/2026
+image-rendering: pixelated - command for making sure UI doesn't come out blocky test this out later
+Finish up text logs and polish up animations for title screen
+Set up "database"

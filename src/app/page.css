@@ -38,6 +38,9 @@
     animation: fadeInTop 1.2s ease-out forwards;
     opacity: 0;
   }
+  .journey-title-sm {
+    font-size: 1.5rem;
+  }
   .journey-subtitle {
       font-size: 1.0rem; 
       text-shadow: 0 0 3px rgba(255, 255, 255, 0.5); 

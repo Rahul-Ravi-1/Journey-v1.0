@@ -57,3 +57,9 @@ Daily Actions
 image-rendering: pixelated - command for making sure UI doesn't come out blocky test this out later
 Finish up text logs and polish up animations for title screen
 Set up "database"
+
+2/16-2/19
+Complete core loop basics down plus Database set up - MVP
+Campfire and warmth hours work 
+PWA installable - Optional , look into how it can get updated and what not
+Extra Credit - See if possible to set up multiplayer (2 travellers tonight)

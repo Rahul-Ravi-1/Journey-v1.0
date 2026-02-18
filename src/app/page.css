@@ -1,4 +1,4 @@
-.main-wrapper {
+  .main-wrapper {
     position: relative;
     min-height: 100vh;
     width: 100%;
@@ -77,4 +77,63 @@
   .step-content.fade-in {
     opacity: 0;
     animation: fadeInTop 1.2s ease-out forwards;
+  }
+
+  /* Input as its own centered layer – fixed position, unaffected by title length */
+  .journey-input-layer {
+    position: absolute;
+    left: 50%;
+    top: 52%;
+    transform: translate(-50%, 0);
+    z-index: 20;
+    width: max-content;
+    max-width: calc(100% - 2rem);
+    padding: 0 1rem;
+    pointer-events: none;
+  }
+
+  .journey-input-layer > * {
+    pointer-events: auto;
+  }
+
+  .journey-input-wrap {
+    width: 18rem;
+    opacity: 0;
+    animation: inputSlideDown 0.5s ease-out forwards;
+  }
+
+  @keyframes inputSlideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .journey-input {
+    width: 100%;
+    padding: 1rem;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.75rem;
+    line-height: 1.6;
+    color: white;
+    background: rgba(255, 255, 255, 0.08);
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    border-radius: 4px;
+    resize: vertical;
+    min-height: 3.5rem;
+    box-sizing: border-box;
+  }
+
+  .journey-input::placeholder {
+    color: rgba(255, 255, 255, 0.45);
+  }
+
+  .journey-input:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.12);
   }

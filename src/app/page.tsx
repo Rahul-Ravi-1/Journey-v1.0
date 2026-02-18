@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { Press_Start_2P } from "next/font/google";
 import "./page.css";
+import { JourneyData, emptyJourneyData } from "@/types/journey";
 
 const pressStart2P = Press_Start_2P({ weight: "400", subsets: ["latin"] });
 
@@ -22,30 +23,74 @@ const STEP_CONTENT: Record<
 type ScreenSteps = {
   step: number;
   onNext: () => void;
+  setJourneyData: React.Dispatch<React.SetStateAction<JourneyData>>;
 };
 
-export function TitleScreenContent({ step, onNext }: ScreenSteps) {
+const INPUT_PLACEHOLDERS: Record<number, string> = {
+  3: "Type your North Star here...",
+  4: "What are your next steps for this week?",
+  5: "One action per line (up to 5)...",
+};
+
+const CLICK_COOLDOWN_MS = 1000;
+
+export function TitleScreenContent({ step, onNext, setJourneyData }: ScreenSteps) {
   const [isExiting, setIsExiting] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+  const [inputRevealed, setInputRevealed] = useState(false);
+  const lastAdvanceRef = useRef(0);
+
+  const showInput = step >= 3 && step <= 5;
+  const placeholder = INPUT_PLACEHOLDERS[step] ?? "";
+
+  // Reset input state when step changes: clear text and hide until animation ends
+  useEffect(() => {
+    setInputValue("");
+    setInputRevealed(false);
+  }, [step]);
 
   const handleActivate = useCallback(() => {
-    if (isExiting) return;
+    const now = Date.now();
+    if (isExiting || now - lastAdvanceRef.current < CLICK_COOLDOWN_MS) return;
+    lastAdvanceRef.current = now;
     setIsExiting(true);
   }, [isExiting]);
 
   const handleExitComplete = useCallback(() => {
+    // Save current input into journeyData before advancing (step 3 → northStar, 4 → weeklyGoal, 5 → weeklyActions)
+    if (showInput && inputValue.trim() !== "") {
+      setJourneyData((prev: JourneyData) => {
+        if (step === 3) {
+          return { ...prev, northStar: inputValue.trim() };
+        }
+        if (step === 4) {
+          return { ...prev, weeklyGoal: inputValue.trim() };
+        }
+        if (step === 5) {
+          const lines = inputValue
+            .split(/\n/)
+            .map((s) => s.trim())
+            .filter(Boolean)
+            .slice(0, 5);
+          const weeklyActions: [string, string, string, string, string] = [
+            lines[0] ?? "",
+            lines[1] ?? "",
+            lines[2] ?? "",
+            lines[3] ?? "",
+            lines[4] ?? "",
+          ];
+          return {
+            ...prev,
+            weeklyActions,
+            infoCompleted: true,
+          };
+        }
+        return prev;
+      });
+    }
     onNext();
     setIsExiting(false);
-  }, [onNext]);
-
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        handleActivate();
-      }
-    },
-    [handleActivate]
-  );
+  }, [onNext, setJourneyData, step, showInput, inputValue]);
 
   const content = STEP_CONTENT[step];
   if (content === undefined) return null;
@@ -56,16 +101,17 @@ export function TitleScreenContent({ step, onNext }: ScreenSteps) {
   if (isExiting) animationClass = "fade-out";
 
   const handleAnimationEnd = () => {
-    if (isExiting) handleExitComplete();
+    if (isExiting) {
+      handleExitComplete();
+    } else if (showInput) {
+      setInputRevealed(true);
+    }
   };
 
   return (
     <main
       className="main-wrapper"
       onClick={handleActivate}
-      onKeyDown={handleKeyDown}
-      role="button"
-      tabIndex={0}
     >
       <div className="gradient-background" aria-hidden />
       <div className={`screen-content ${pressStart2P.className}`}>
@@ -84,15 +130,38 @@ export function TitleScreenContent({ step, onNext }: ScreenSteps) {
           )}
         </div>
       </div>
+      {showInput && inputRevealed && (
+        <div
+          className="journey-input-layer"
+          onClick={(e) => e.stopPropagation()}
+          onKeyDown={(e) => e.stopPropagation()}
+        >
+          <div className="journey-input-wrap">
+            <textarea
+              className="journey-input"
+              placeholder={placeholder}
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              rows={3}
+              aria-label={placeholder}
+            />
+          </div>
+        </div>
+      )}
     </main>
   );
 }
 
 export default function Page() {
   const [step, setStep] = useState(0);
+  const [journeyData, setJourneyData] = useState<JourneyData>(emptyJourneyData);
   return (
     <div className="screen">
-      <TitleScreenContent step={step} onNext={() => setStep((s) => s + 1)} />
+      <TitleScreenContent
+        step={step}
+        onNext={() => setStep((s) => s + 1)}
+        setJourneyData={setJourneyData}
+      />
     </div>
   );
 }

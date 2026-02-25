@@ -39,8 +39,7 @@
   font-family: "Press Start 2P", monospace;
 }
 
-.journey-subtitle,
-.journey-data {
+.journey-subtitle {
   text-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
   animation: fadeInTop 0.5s ease-out 1s forwards;
   opacity: 0;
@@ -59,18 +58,36 @@
   margin-top: 1.5rem;
 }
 
-.journey-data {
-  font-size: 0.5rem;
+.journey-data-list {
   margin: 0.5rem auto 0;
-  color: white;
-  opacity: 0.6;
-  text-align: left;
+  padding: 0;
   width: 100%;
   max-width: 400px;
+}
+
+.journey-data-list:not(.is-visible) {
+  visibility: hidden;
+}
+
+.journey-data-list.is-visible .journey-data {
+  animation: fadeInTop 0.35s ease-out forwards;
+}
+
+.journey-data {
+  font-size: 0.5rem;
+  margin: 0 0 0.5rem;
+  color: white;
+  text-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  text-align: left;
   padding: 0.5rem 1rem;
   box-sizing: border-box;
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 0.5rem;
+}
+
+.journey-data:last-child {
+  margin-bottom: 0;
 }
 
 @keyframes fadeInTop {

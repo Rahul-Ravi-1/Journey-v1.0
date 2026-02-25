@@ -30,14 +30,12 @@ export default function Page() {
           >
             Time to rise
           </p>
-          {animationDone && (
-            <ul className={`journey-data-list ${pressStart2P.className}`}>
-              <li className="journey-data">North Star: {journeyData.northStar}</li>
-              <li className="journey-data">Weekly Goal: {journeyData.weeklyGoal}</li>
-              <li className="journey-data">Weekly Actions: {journeyData.weeklyActions.join(", ")}</li>
-              <li className="journey-data">Fire State: {journeyData.fireState}</li>
-            </ul>
-          )}
+          <ul className={`journey-data-list ${animationDone ? "is-visible" : ""} ${pressStart2P.className}`}>
+            <li className="journey-data">North Star: {journeyData.northStar}</li>
+            <li className="journey-data">Weekly Goal: {journeyData.weeklyGoal}</li>
+            <li className="journey-data">Weekly Actions: {journeyData.weeklyActions.join(", ")}</li>
+            <li className="journey-data">Fire State: {journeyData.fireState}</li>
+          </ul>
         </div>
       </main>
     </div>
